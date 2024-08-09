@@ -12,6 +12,7 @@ function App() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   
+  const navigate = useNavigate();
   
 
   const validateForm = () => {
@@ -49,7 +50,7 @@ function App() {
             if(response){
                 alert('Login successful!');
                 //跳转到主界面
-                
+                navigate('/board');
             } else {
                 console.log('Form is invalid');
             }
@@ -59,7 +60,7 @@ function App() {
           console.log('Form is invalid');
       }
   };
-
+  
   return (
       <div>
           <h2>Login</h2>

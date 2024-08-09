@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
+import * as axios from 'axios'
+import './board.css'
+
+const client = axios.default;
 
 function Board() {
     const [todoItems, setTodoItems] = useState([]);
@@ -7,25 +11,115 @@ function Board() {
 
     const handleAddItem = () => {
         const newItem = prompt('Enter new task');
+       
+        
         if (newItem) {
             setTodoItems([...todoItems, newItem]);
+            client.post("http://127.0.0.1/todo", {
+                newproject: newItem
+            },  {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+              }
+            ).then((response) => {
+                if(response){
+                    alert('Add successful!');
+                } else {
+                    alert('Add failed');
+                }
+            })
         }
+        
     };
 
     const handleMoveToInProgress = (index) => {
         const item = todoItems[index];
         setTodoItems(todoItems.filter((_, i) => i !== index));
         setInProgressItems([...inProgressItems, item]);
+        client.post("http://127.0.0.1/deletetodo", {
+            newproject: item
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then((response) => {
+        if(response){
+            alert('Move successful!');
+        } else {
+            console.log('Move failed');
+        }
+    })
+
+        client.post("http://127.0.0.1/inprogress", {
+            newproject: item
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then((response) => {
+        if(response){
+            alert('successful!');
+        } else {
+            alert('failed');
+        }
+    })
     };
 
     const handleMoveToDone = (index) => {
         const item = inProgressItems[index];
         setInProgressItems(inProgressItems.filter((_, i) => i !== index));
         setDoneItems([...doneItems, item]);
+        client.post("http://127.0.0.1/deleteinprogress", {
+            newproject: item
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then((response) => {
+        if(response){
+            alert('Move successful!');
+        } else {
+            console.log('Move failed');
+        }
+    })
+
+        client.post("http://127.0.0.1/done", {
+            newproject: item
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then((response) => {
+        if(response){
+            alert('successful!');
+        } else {
+            alert('failed');
+        }
+    })
     };
 
     const handleDelete = (index) => {
+        const item = doneItems[index];
         setDoneItems(doneItems.filter((_, i) => i !== index));
+        client.post("http://127.0.0.1/deletedone", {
+            newproject: item
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then((response) => {
+        if(response){
+            alert('Delete successful!');
+        } else {
+            console.log('Delete failed');
+        }
+    })
     };
 
     return (
