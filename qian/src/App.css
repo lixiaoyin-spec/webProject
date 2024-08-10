@@ -1,42 +1,88 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+
+.form-container label {
+  font-size: 20px;
+}
+
+.form-container input {
+  font-size: 18px;
+  padding: 5px 10px;
+  margin: 5px 0;
+}
+
+.heading {
+  font-size: 40px;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.total{
+  display: flex;
+  justify-content: center;
+  flex-direction: column; /* 垂直排列任务 */
+  gap: 10px;
+  height: 100vh;
+  margin-left: 550px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url("./back2.jpg"); /* 设置背景图片路径 */
+  background-size: cover; /* 图片按比例缩放以填充整个背景 */
+  background-repeat: no-repeat; /* 禁止背景图片重复 */
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  /* place-items: center; */
+  
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.board {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 1400px;
+  max-height: 900px;
+  min-height: 900px;
+  min-width: 1400px;
+  margin-top: 50px;
+  border-radius: 10px;
+  margin-left: 10px;
 }
 
-.card {
-  padding: 2em;
+.handsomebutton{
+  position:fixed;
+  margin-top: 8px;
+  margin-left: 150px;
+  height: 20px;
 }
 
-.read-the-docs {
-  color: #888;
+.newclass{
+  display: flex;
+  flex-direction: column; /* 垂直排列任务 */
+  gap: 10px; /* 任务间的间距 */
+  margin-top: 10px;
+}
+
+.left-column, .middle-column, .right-column {
+  border: black 3px solid;
+  background-color: rgb(159, 157, 157);
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  margin: 0 10px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  /* 边角弧度 */
+  height: 1500px;
+  opacity: 50%;
+  /* 透明度 */
+  flex-direction: column; /* 垂直排列任务 */
+  gap: 10px; /* 任务间的间距 */
+}
+
+.left-column h2, .middle-column h2, .right-column h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
 }

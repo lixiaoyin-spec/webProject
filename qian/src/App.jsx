@@ -62,31 +62,25 @@ function App() {
   };
   
   return (
-      <div>
-          <h2>Login</h2>
+      <div className='total'>
+        <h1 className="heading">Welcome!!!</h1>
+          <h2 className="heading">Login Page</h2>
           <form onSubmit={handleSubmit}>
-              <div>
-                  <label>Username:</label>
-                  <input
-                      type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                  />
-                  {errors.username && <p>{errors.username}</p>}
-              </div>
-              <div>
-                  <label>Password:</label>
-                  <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                  />
-                  {errors.password && <p>{errors.password}</p>}
-              </div>
-              <button type="submit">Login</button>
+          <div>
+          <label className="form-container label">Username:</label>
+          <input className="border-4 border-light-blue-500 border-opacity-100, form-container input" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+          {errors.username && <p>{errors.username}</p>}
+        </div>
+        <div>
+          <label className="form-container label">Password:</label>
+          <input className="border-4 border-dark-500 border-opacity-200, form-container input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          {errors.password && <p>{errors.password}</p>}
+        </div>
+              <button class = "bg-sky-500 hover:bg-sky-700, rounded-full py-3 px-6" type="submit">Login</button>
           </form>
       </div>
   );
 }
 
 export default App;
+// class = "bg-sky-500 hover:bg-sky-700"
