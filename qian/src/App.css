@@ -57,6 +57,12 @@ body {
   height: 20px;
 }
 
+.loginbutton{
+  position: fixed;
+  margin-left: 100px;
+  width: 100px;
+}
+
 .newclass{
   display: flex;
   flex-direction: column; /* 垂直排列任务 */

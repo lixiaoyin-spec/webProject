@@ -9,6 +9,10 @@ export class fileController {
         let istrue: boolean = false;
         let todo: string = body.newproject + '\n';
         fs.appendFileSync('do.txt', todo, 'utf8');
+
+        // 添加到description.txt
+        let description: string = body.description + '\n';
+        fs.appendFileSync('description.txt', description, 'utf8');
         istrue = true;
         
         return istrue
@@ -16,40 +20,6 @@ export class fileController {
 
     @Post('/deletetodo')
     async deletetodo(@Body() body:any):Promise<boolean>{
-        //在do.txt中删除
-        // const fs = require('fs');
-        // const path = require('path');
-        // let istrue: boolean = false
-
-        // let deleteitem: string = body.newproject;
-
-        // const filePath = path.join(__dirname, 'do.txt');
-        // const lineToDelete = deleteitem;
-        // fs.readFile(filePath, 'utf8', (err, data) => {
-        //     if (err) {
-        //         console.error('读取文件时发生错误:', err);
-        //         return istrue;
-        //     }
-        
-        //     // 将内容按行分割
-        //     const lines = data.split('\n');
-        
-        //     // 过滤掉与 lineToDelete 匹配的行
-        //     const filteredLines = lines.filter(line => line.trim() !== lineToDelete);
-        
-        //     // 将剩余的行重新组合成字符串
-        //     const newData = filteredLines.join('\n');
-        
-        //     // 将新数据写回文件
-        //     fs.writeFile(filePath, newData, 'utf8', (err) => {
-        //         if (err) {
-        //             console.error('写入文件时发生错误:', err);
-        //         } else {
-        //             console.log('文件已更新');
-        //             istrue = true;
-        //         }
-        //     });
-        // });
         let istrue: boolean = false
         const data = fs.readFileSync('do.txt', 'utf8')
         const todoList = data.split('\n');
@@ -123,9 +93,23 @@ export class fileController {
             if(fruit != deleteitem){
                 let fruit2 = fruit + '\n';
                 fs.appendFileSync('done.txt', fruit2, 'utf8');
-                istrue = true;
             }
         }
+
+        const content = fs.readFileSync('description.txt', 'utf8');
+        const contentList = content.split('\n');
+        let deleteDescription: string = body.newdescription
+        const list2 = contentList.filter(line => line.trim() !== '');
+
+        fs.writeFileSync('description.txt', '');
+        for(let fruit of list2){
+            if(fruit != deleteDescription){
+                let fruit2 = fruit + '\n';
+                fs.appendFileSync('description.txt', fruit2, 'utf8');
+            }
+        }
+
+        istrue = true;
         return istrue
     }
 
@@ -139,7 +123,7 @@ export class fileController {
 
     @Get('/inprogress')
     async getinprogress(): Promise<string[]> {
-        const data = fs.readFileSync('do.txt', 'utf8');
+        const data = fs.readFileSync('inprogress.txt', 'utf8');
         const lines = data.split(/\r?\n/);
         let getinprogress: string[] = lines;
         return getinprogress
@@ -147,9 +131,17 @@ export class fileController {
 
     @Get('/done')
     async getdone(): Promise<string[]> {
-        const data = fs.readFileSync('do.txt', 'utf8');
+        const data = fs.readFileSync('done.txt', 'utf8');
         const lines = data.split(/\r?\n/);
         let getdone: string[] = lines;
         return getdone
+    }
+
+    @Get('/description')
+    async getdescription(): Promise<string[]> {
+        const data = fs.readFileSync('description.txt', 'utf8');
+        const lines = data.split(/\r?\n/);
+        let getdescription: string[] = lines;
+        return getdescription
     }
 }

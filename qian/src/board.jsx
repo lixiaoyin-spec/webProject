@@ -8,15 +8,55 @@ function Board() {
     const [todoItems, setTodoItems] = useState([]);
     const [inProgressItems, setInProgressItems] = useState([]);
     const [doneItems, setDoneItems] = useState([]);
+    const [description, setDescription] = useState([]);
+
+    useEffect(() => {
+        let filedo = [];
+    client.get("http://127.0.0.1:7001/todo").then((response) => {
+        filedo = response.data;
+        let filedo2 = filedo.filter(line => line.trim() !== '');
+        setTodoItems([...filedo2]);
+    })
+
+    let filein = [];
+    client.get("http://127.0.0.1:7001/inprogress").then((response) => {
+        filein = response.data;
+        let filein2 = filein.filter(line => line.trim() !== '');
+        setInProgressItems([...filein2]);
+    })
+
+    let filedone = [];
+    client.get("http://127.0.0.1:7001/done").then((response) => {
+        filedone = response.data;
+        let filedone2 = filedone.filter(line => line.trim() !== '');
+        setDoneItems([...filedone2]);
+    })
+
+    let filedes = [];
+    client.get("http://127.0.0.1:7001/description").then((response) => {
+
+        filedes = response.data;
+        let filedes2 = filedes.filter(line => line.trim() !== '');
+        setDescription([...filedes2]);
+    })
+    }, []);
+
+    const handleWatchDescription = (index) => {
+        alert(description[index]);
+    }
+    
 
     const handleAddItem = () => {
         const newItem = prompt('Enter new task');
+        const newDescription = prompt('Enter task description and comments');
        
         
-        if (newItem) {
+        if (newItem && newDescription) {
             setTodoItems([...todoItems, newItem]);
+            setDescription([...description, newDescription]);
             client.post("http://127.0.0.1:7001/todo", {
-                newproject: newItem
+                newproject: newItem,
+                description: newDescription
             },  {
                 headers: {
                     'Content-Type': 'application/json'
@@ -38,7 +78,7 @@ function Board() {
         setTodoItems(todoItems.filter((_, i) => i !== index));
         setInProgressItems([...inProgressItems, item]);
         client.post("http://127.0.0.1:7001/deletetodo", {
-            newproject: item
+            newproject: item,
         }, {
             headers: {
                 'Content-Type': 'application/json'
@@ -104,10 +144,13 @@ function Board() {
     };
 
     const handleDelete = (index) => {
+        console.log(index);
         const item = doneItems[index];
+        const deleteDescription = description[index];
         setDoneItems(doneItems.filter((_, i) => i !== index));
         client.post("http://127.0.0.1:7001/deletedone", {
-            newproject: item
+            newproject: item,
+            newdescription: deleteDescription
         }, {
             headers: {
                 'Content-Type': 'application/json'
@@ -132,6 +175,7 @@ function Board() {
                 <div key={index}>
                     {item}
                     <button className='border-4 border-black border-opacity-100' onClick={() => handleMoveToInProgress(index)}>Move to In Progress</button>
+                    <button className='border-4 border-blue-500 border-opacity-100' onClick={() => handleWatchDescription(index)}>Watch</button>
                 </div>
             ))}
         </div>
@@ -142,6 +186,7 @@ function Board() {
                 <div key={index}>
                     {item}
                     <button className='border-4 border-black border-opacity-100' onClick={() => handleMoveToDone(index)}>Move to Done</button>
+                    <button className='border-4 border-blue-500 border-opacity-100' onClick={() => handleWatchDescription(index)}>Watch</button>
                 </div>
             ))}
         </div>
@@ -152,6 +197,7 @@ function Board() {
                 <div key={index}>
                     {item}
                     <button className='border-4 border-black border-opacity-100' onClick={() => handleDelete(index)}>Delete</button>
+                    <button className='border-4 border-blue-500 border-opacity-100' onClick={() => handleWatchDescription(index)}>Watch</button>
                 </div>
             ))}
         </div>

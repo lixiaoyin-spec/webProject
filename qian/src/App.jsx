@@ -76,7 +76,7 @@ function App() {
           <input className="border-4 border-dark-500 border-opacity-200, form-container input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           {errors.password && <p>{errors.password}</p>}
         </div>
-              <button class = "bg-sky-500 hover:bg-sky-700, rounded-full py-3 px-6" type="submit">Login</button>
+              <button class = "bg-sky-500 hover:bg-sky-700, rounded-full py-3 px-6, loginbutton" type="submit">Login</button>
           </form>
       </div>
   );
