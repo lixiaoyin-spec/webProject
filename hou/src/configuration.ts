@@ -7,12 +7,14 @@ import { join } from 'path';
 // import { NotFoundFilter } from './filter/notfound.filter';
 import { ReportMiddleware } from './middleware/report.middleware';
 import * as crossDomain from '@midwayjs/cross-domain';
+import * as upload from '@midwayjs/upload';
 
 @Configuration({
   imports: [
     crossDomain,
     koa,
     validate,
+    upload,
     {
       component: info,
       enabledEnvironment: ['local'],

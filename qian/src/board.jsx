@@ -1,14 +1,18 @@
 import React, { useState, useEffect} from 'react';
 import * as axios from 'axios'
 import './App.css'
+import { useNavigate } from 'react-router-dom';
 
 const client = axios.default;
 
+
 function Board() {
+    const navigate = useNavigate();
     const [todoItems, setTodoItems] = useState([]);
     const [inProgressItems, setInProgressItems] = useState([]);
     const [doneItems, setDoneItems] = useState([]);
     const [description, setDescription] = useState([]);
+    
 
     useEffect(() => {
         let filedo = [];
@@ -31,29 +35,34 @@ function Board() {
         let filedone2 = filedone.filter(line => line.trim() !== '');
         setDoneItems([...filedone2]);
     })
-
-    let filedes = [];
-    client.get("http://127.0.0.1:7001/description").then((response) => {
-
-        filedes = response.data;
-        let filedes2 = filedes.filter(line => line.trim() !== '');
-        setDescription([...filedes2]);
-    })
     }, []);
 
-    const handleWatchDescription = (index) => {
-        alert(description[index]);
+    const handleWatchtodoDescription = (index) => {
+        client.post("http://127.0.0.1:7001/store", {
+            temp: index
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            if(response){
+                console.log('成功!');
+            } else {
+                console.log('失败!');
+            }
+        })
+        navigate('/todo');
     }
-    
 
     const handleAddItem = () => {
         const newItem = prompt('Enter new task');
         const newDescription = prompt('Enter task description and comments');
        
         
-        if (newItem && newDescription) {
+        
             setTodoItems([...todoItems, newItem]);
             setDescription([...description, newDescription]);
+            console.log("数组是" + description);
             client.post("http://127.0.0.1:7001/todo", {
                 newproject: newItem,
                 description: newDescription
@@ -69,12 +78,17 @@ function Board() {
                     alert('Add failed');
                 }
             })
-        }
+        
         
     };
 
     const handleMoveToInProgress = (index) => {
         const item = todoItems[index];
+        const toDelete = description[index];
+        console.log(description);
+        console.log(index);
+        console.log('toDelete is ', + toDelete);
+        setDescription(description.filter((_, i) => i !== index));
         setTodoItems(todoItems.filter((_, i) => i !== index));
         setInProgressItems([...inProgressItems, item]);
         client.post("http://127.0.0.1:7001/deletetodo", {
@@ -93,7 +107,8 @@ function Board() {
     })
 
         client.post("http://127.0.0.1:7001/inprogress", {
-            newproject: item
+            newproject: item,
+            
         }, {
             headers: {
                 'Content-Type': 'application/json'
@@ -106,6 +121,19 @@ function Board() {
             alert('failed');
         }
     })
+    client.post("http://127.0.0.1:7001/deletedescription", {
+        newDelete: toDelete
+    }, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then((response) => {
+        if(response){
+            console.log('aaaaa');
+        } else {
+            console.log('bbbbb');
+        }
+    })
     };
 
     const handleMoveToDone = (index) => {
@@ -113,7 +141,7 @@ function Board() {
         setInProgressItems(inProgressItems.filter((_, i) => i !== index));
         setDoneItems([...doneItems, item]);
         client.post("http://127.0.0.1:7001/deleteinprogress", {
-            newproject: item
+            newproject: item,
         }, {
             headers: {
                 'Content-Type': 'application/json'
@@ -128,7 +156,7 @@ function Board() {
     })
 
         client.post("http://127.0.0.1:7001/done", {
-            newproject: item
+            newproject: item,
         }, {
             headers: {
                 'Content-Type': 'application/json'
@@ -144,13 +172,10 @@ function Board() {
     };
 
     const handleDelete = (index) => {
-        console.log(index);
         const item = doneItems[index];
-        const deleteDescription = description[index];
         setDoneItems(doneItems.filter((_, i) => i !== index));
         client.post("http://127.0.0.1:7001/deletedone", {
             newproject: item,
-            newdescription: deleteDescription
         }, {
             headers: {
                 'Content-Type': 'application/json'
@@ -175,7 +200,7 @@ function Board() {
                 <div key={index}>
                     {item}
                     <button className='border-4 border-black border-opacity-100' onClick={() => handleMoveToInProgress(index)}>Move to In Progress</button>
-                    <button className='border-4 border-blue-500 border-opacity-100' onClick={() => handleWatchDescription(index)}>Watch</button>
+                    <button className='border-4 border-blue-500 border-opacity-100' onClick={() => handleWatchtodoDescription(index)}>Watch</button>
                 </div>
             ))}
         </div>
@@ -186,7 +211,6 @@ function Board() {
                 <div key={index}>
                     {item}
                     <button className='border-4 border-black border-opacity-100' onClick={() => handleMoveToDone(index)}>Move to Done</button>
-                    <button className='border-4 border-blue-500 border-opacity-100' onClick={() => handleWatchDescription(index)}>Watch</button>
                 </div>
             ))}
         </div>
@@ -197,7 +221,6 @@ function Board() {
                 <div key={index}>
                     {item}
                     <button className='border-4 border-black border-opacity-100' onClick={() => handleDelete(index)}>Delete</button>
-                    <button className='border-4 border-blue-500 border-opacity-100' onClick={() => handleWatchDescription(index)}>Watch</button>
                 </div>
             ))}
         </div>

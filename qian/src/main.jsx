@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App.jsx'
 import Board from './board.jsx'
+import Watch from './watchtodo.jsx'
 import './index.css'
 
 
@@ -13,6 +14,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/board" element={<Board />} />
+      <Route path="/todo" element={<Watch />} />
     </Routes>
   </BrowserRouter>
 );
