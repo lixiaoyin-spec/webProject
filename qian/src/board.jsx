@@ -62,7 +62,6 @@ function Board() {
         
             setTodoItems([...todoItems, newItem]);
             setDescription([...description, newDescription]);
-            console.log("数组是" + description);
             client.post("http://127.0.0.1:7001/todo", {
                 newproject: newItem,
                 description: newDescription
@@ -85,9 +84,6 @@ function Board() {
     const handleMoveToInProgress = (index) => {
         const item = todoItems[index];
         const toDelete = description[index];
-        console.log(description);
-        console.log(index);
-        console.log('toDelete is ', + toDelete);
         setDescription(description.filter((_, i) => i !== index));
         setTodoItems(todoItems.filter((_, i) => i !== index));
         setInProgressItems([...inProgressItems, item]);
@@ -129,9 +125,9 @@ function Board() {
         }
     }).then((response) => {
         if(response){
-            console.log('aaaaa');
+            console.log('成功！');
         } else {
-            console.log('bbbbb');
+            console.log('失败！');
         }
     })
     };

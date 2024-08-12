@@ -37,7 +37,6 @@ function App() {
       event.preventDefault();
       if (validateForm()) {
           console.log('Form is valid');
-          // Perform login logic here
           client.post("http://127.0.0.1:7001/check", {
             name: username,
             word: password
@@ -49,7 +48,6 @@ function App() {
         ).then((response) => {
             if(response){
                 alert('Login successful!');
-                //跳转到主界面
                 navigate('/board');
             } else {
                 console.log('Form is invalid');
@@ -83,4 +81,3 @@ function App() {
 }
 
 export default App;
-// class = "bg-sky-500 hover:bg-sky-700"

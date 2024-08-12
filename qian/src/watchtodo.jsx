@@ -10,7 +10,7 @@ function Watch() {
     const [descriptionOfTask, setDescriptionOfTask] = useState('');
     const [taskIndex, setTaskIndex] = useState(null);
     const [task, setTask] = useState([]);
-    const [file, setFile] = useState(null); // 用于保存选中的文件
+    const [file, setFile] = useState(null);
 
     useEffect(() => {
         client.get('http://127.0.0.1:7001/store').then((response) => {
@@ -28,7 +28,7 @@ function Watch() {
     }, [taskIndex]);
 
     const handleFileChange = (event) => {
-        setFile(event.target.files[0]); // 保存选中的文件
+        setFile(event.target.files[0]);
     };
 
     const handleFileUpload = () => {
@@ -37,8 +37,7 @@ function Watch() {
 
     const reader = new FileReader();
     reader.onload = function(event) {
-        const fileContent = event.target.result; // 文件内容作为字符串
-        // 发送文件内容到服务器
+        const fileContent = event.target.result;
         client.post('http://127.0.0.1:7001/upload', {
             fileData: fileContent
         }, {

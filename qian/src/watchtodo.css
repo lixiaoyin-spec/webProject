@@ -1,7 +1,7 @@
 .totally{
     display: flex;
     justify-content: center;
-    flex-direction: column; /* 垂直排列任务 */
+    flex-direction: column; 
     gap: 10px;
     height: 100vh;
     margin-left: 550px;
@@ -18,11 +18,11 @@
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 20px;
-    /* 边角弧度 */
+    
     width: 1400px;
     height: 40vh;
     opacity: 50%;
-    /* 透明度 */
-    flex-direction: column; /* 垂直排列任务 */
-    gap: 10px; /* 任务间的间距 */
+    
+    flex-direction: column;
+    gap: 10px; 
   }

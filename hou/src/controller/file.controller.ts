@@ -5,12 +5,10 @@ import * as fs from 'fs';
 export class fileController {
     @Post('/todo')
     async todo(@Body() body: any): Promise<boolean> {
-        // 添加到do.txt
         let istrue: boolean = false;
         let todo: string = body.newproject + '\n';
         await fs.appendFileSync('do.txt', todo, 'utf8');
 
-        // 添加到description.txt
         let description: string = body.description + '\n';
         await fs.appendFileSync('description.txt', description, 'utf8');
         istrue = true;
@@ -62,7 +60,6 @@ export class fileController {
     
     @Post('/inprogress')
     async inprogress(@Body() body: any): Promise<boolean> {
-        // 添加到inprogress.txt
         let istrue: boolean = false
         let inprogress: string = body.newproject + '\n';
         await fs.appendFileSync('inprogress.txt', inprogress, 'utf8')
@@ -91,7 +88,6 @@ export class fileController {
 
     @Post('/done')
     async done(@Body() body: any): Promise<boolean> {
-        // 添加到done.txt
         let istrue: boolean = false;
         let done: string = body.newproject + '\n';
         await fs.appendFileSync('done.txt', done, 'utf8')
